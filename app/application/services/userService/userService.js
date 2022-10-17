@@ -50,7 +50,7 @@ class UserService {
 
                 if (HashPassword.verify(req, user)) {
                     console.log(user)
-                    return ([user.token, 200])
+                    return ([user.token,user._id, 200])
                 } else return ["wrong Password", 401]
             } else return ["user not found", 404]
         }
@@ -91,12 +91,12 @@ class UserService {
             if (!req.body.email.includes("@") || !req.body.email.endsWith(".com") || req.body.email.length <= 6) {
                 return "wrong email"
             } else {
-                const salt = await bcrypt.genSalt(10) // generate salt to hash password
-                const password = await bcrypt.hash(req.body.password, salt) //generating hashed password
+
+
                 user.email = req.body.email
                 user.FirstName = req.body.FirstName
                 user.LastName = req.body.LastName
-                user.password = password
+                
                 user.token = user.token
                 return await UserRepository.Save(user)
             }

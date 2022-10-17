@@ -20,4 +20,4 @@ app.use(router.userRoute)
 //app.use('/auth',router.authRoute)
 app.use(require('./http/middleware/userTokenAuthentication'))
 
-app.listen(3000, () => {console.log(`listening  on port 3000`)}) 
+app.listen(5500, () => {console.log(`listening  on port 5500`)}) 

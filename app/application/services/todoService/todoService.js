@@ -52,6 +52,19 @@ class TodoService {
             return err
         }
     }
+    async updateCompleted(req) {
+        try {
+            const {id} = req.params
+            const todo = await TodoRepository.FindById(id)
+          
+            todo.completed=req.body.completed   
+                return await TodoRepository.Save(todo)
+            
+        }
+        catch (err) {
+            return err
+        }
+    }
     async deleteTodo(req) {
         try {
             const { id } = req.params

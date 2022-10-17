@@ -6,7 +6,7 @@ class HashPassword {
         return await bcrypt.hash(req.body.password, salt) //generating hashed password
     }
     static async verify(req, user) {
-        return await bcrypt.compare(req.body.password, user.password)
+        return await bcrypt.compare(user.password, req.body.password)
     }
 }
 

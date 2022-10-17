@@ -20,6 +20,9 @@ class TodoController {
     static async removeTodo(req, res) {
        res.json(await TodoService.deleteTodo(req)).status(204)
     }
+    static async updateCompleted (req,res) {
+        res.json(TodoService.updateCompleted(req))
+    }
 }
 
 module.exports = TodoController;
