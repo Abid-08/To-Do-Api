@@ -19,7 +19,9 @@ const userSchema = new mongoose.Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref : 'Todo'
         }
-    ]
+    ], userImage: {
+        type: String
+    }
 })
 
 const UserModel = mongoose.model('User', userSchema)

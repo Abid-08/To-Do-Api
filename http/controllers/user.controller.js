@@ -23,7 +23,18 @@ class UserController {
         res.json(await UserService.updateUser(req)).status(200)
     }
     static async removeUser(req, res) {
-        res.status(204).json(UserService.deleteUser(req)).status(204)
+        res.json(await UserService.deleteUser(req)).status(204)
+    }
+    static async getOne(req,res) {
+        res.json(await UserService.getOne(req))
+    }
+
+    static async updatePassword(req,res) {
+        res.json(await userService.updatePassword(req))
+    }
+
+    static async updatePhoto(req,res) {
+        res.json(await userService.updatePhoto(req))
     }
     
 }

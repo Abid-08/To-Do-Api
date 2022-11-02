@@ -9,5 +9,8 @@ router.get('/users',isLoggedIn, controller.userControls.getUsers) //read
 router.get('/users/:id',isLoggedIn, controller.userControls.getUser) //read single
 router.put('/users/:id',isLoggedIn,controller.userControls.updateUser) //update 
 router.delete('/users/:id',isLoggedIn,controller.userControls.removeUser) //remove
+router.get('/user',isLoggedIn,controller.userControls.getOne) //getone
+router.put('/user',controller.userControls.updatePassword) //updatePassword
+router.put('/user/:id',isLoggedIn,controller.userControls.updatePhoto) //updatePhoto
 
 module.exports = router

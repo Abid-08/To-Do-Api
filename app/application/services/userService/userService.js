@@ -16,11 +16,12 @@ class UserService {
             const email = req.body.email
             const FirstName = req.body.FirstName
             const LastName = req.body.LastName
+            const image = req.body.image
             if (!email.includes("@") || !email.endsWith(".com") || email.length <= 6) {
                 return ("wrong email")
             }
             const password = await HashPassword.generatePassword(req)
-            const user = new userModel({ email: email, FirstName: FirstName, LastName: LastName, password: password, token: token })
+            const user = new userModel({ email: email, FirstName: FirstName, LastName: LastName, password: password, token: token, userImage: image })
             const newUser = await UserRepository.Save(user)
             return newUser
         }
@@ -53,6 +54,18 @@ class UserService {
                     return ([user.token,user._id, 200])
                 } else return ["wrong Password", 401]
             } else return ["user not found", 404]
+        }
+        catch (err) {
+            return err
+        }
+    }
+    async getOne () {
+        try {
+            const user = await userRepository.FindByToken(req.headers.authorization)
+            if (user) {
+                return { email: user.email, id: user._id, FirstName: user.FirstName, LastName: user.LastName }
+            }
+            return ("Does not exist")
         }
         catch (err) {
             return err
@@ -96,6 +109,7 @@ class UserService {
                 user.email = req.body.email
                 user.FirstName = req.body.FirstName
                 user.LastName = req.body.LastName
+                user.userImage = user.userImage
                 
                 user.token = user.token
                 return await UserRepository.Save(user)
@@ -105,6 +119,40 @@ class UserService {
             return err
         }
     }
+
+    async updatePassword(req) {
+        try {
+            const email = req.body.email
+            const user = await userRepository.FindByEmail(email)
+
+            if (user) {
+                user.email = req.body.email
+                user.FirstName = user.FirstName
+                user.LastName = user.LastName
+                user.userImage=user.userImage
+                user.password=await HashPassword.generatePassword(req)
+                user.token = user.token
+                return await UserRepository.Save(user)
+            }
+        }
+        catch (e){
+            return e
+        }
+    }
+    async updatePhoto (req) {
+        try {
+            const { id } = req.params
+            const user = await UserRepository.FindById(id)
+
+            user = {...user, userImage: req.body.image}
+
+            return await UserRepository.Save(user)
+        }
+        catch (e) {
+            return e
+        }
+    }
+
     async deleteUser(req) {
         try {
             const { id } = req.params

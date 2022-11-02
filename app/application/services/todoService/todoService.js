@@ -7,8 +7,11 @@ class TodoService {
     async create(req) {
         try {
             const text = req.body.text
+            const description = req.body.description
+            const date = new Date()
+            const dateCreated= `${date.getDate()}-${date.getMonth()+1}-${date.getFullYear()}/${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`
             const user = await UserRepository.FindByToken(req.headers.authorization.split(' ')[1])
-            const todo = new TodoModel({ text: text, completed: false, userId: user._id })
+            const todo = new TodoModel({ text: text, description: description , completed: false, userId: user._id, dateCreated: dateCreated })
             const newTodo = await TodoRepository.Save(todo)
             user.Todos.push(newTodo._id)
             await UserRepository.Save(user)
@@ -46,6 +49,7 @@ class TodoService {
             if (req.body.completed) todo.completed = req.body.completed
             else todo.completed = todo.completed
             todo.text = req.body.text
+            todo.description = req.body.description
             return TodoRepository.Save(todo)
         }
         catch (err) {

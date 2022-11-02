@@ -6,7 +6,13 @@ const todoSchema = new mongoose.Schema({
     },
     text: {
         type: String
-    }, completed: {
+    },
+    description:{
+type:String
+    },dateCreated: {
+        type: String
+    },
+     completed: {
         type: Boolean
     }, userId: {
         type: mongoose.Schema.Types.ObjectId,
